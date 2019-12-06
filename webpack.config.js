@@ -15,9 +15,6 @@ module.exports = {
         'style-loader',
         'css-loader',
       ],
-      options: {
-        localIdentName: '[name]__[local]__[hash:base64:5]',
-      },
     },
     {
       test: /\.(png|svg|jpg|gif)$/,
