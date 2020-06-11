@@ -32,5 +32,6 @@ module.exports = {
     "react/static-property-placement": ["warn", "static public field"],
     "no-console": [0],
     "operator-linebreak": [0],
+    "react/prop-types": [1, { ignore: ["history"] }]
   },
 };
