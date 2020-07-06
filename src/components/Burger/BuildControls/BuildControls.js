@@ -21,7 +21,7 @@ const BuildControls = ({
   ordered,
 }) => (
   <div className={classes.BuildControls}>
-    <p>Current price: <strong>{price.toFixed(2)}</strong></p>
+    <p>Current Price: <strong>{price.toFixed(2)}</strong></p>
     {controls.map(({ label, type }) => (
       <BuildControl
         key={label}

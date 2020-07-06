@@ -20,6 +20,10 @@ class Modal extends Component {
     children: React.createElement('div'),
   };
 
+  shouldComponentUpdate(nextProps, nextState) {
+    return nextProps.show !== this.props.show || nextProps.children !== this.props.children;
+  }
+
   render() {
     const { show, modalClosed, children } = this.props;
     return (

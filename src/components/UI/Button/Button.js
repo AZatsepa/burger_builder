@@ -3,11 +3,12 @@ import PropTypes from 'prop-types';
 
 import classes from './Button.module.css';
 
-const Button = ({ clicked, btnType, children }) => (
+const Button = ({ clicked, btnType, type, disabled, children }) => (
   <button
-    type="button"
+    type={type || "button"}
     className={[classes.Button, classes[btnType]].join(' ')}
     onClick={clicked}
+    disabled={disabled}
   >
     {children}
   </button>
@@ -15,8 +16,10 @@ const Button = ({ clicked, btnType, children }) => (
 
 Button.propTypes = {
   children: PropTypes.node,
-  clicked: PropTypes.func.isRequired,
+  clicked: PropTypes.func,
   btnType: PropTypes.string.isRequired,
+  type: PropTypes.string,
+  disabled: PropTypes.string,
 };
 
 Button.defaultProps = {

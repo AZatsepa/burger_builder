@@ -35,6 +35,8 @@ class OrderSummary extends Component {
         </li>
       ));
 
+
+
     return (
       <Aux>
         <h3>Your Order</h3>
