@@ -69,7 +69,6 @@ export const checkAuthState = () => (dispatch) => {
   } else {
     const expirationDate = new Date(localStorage.getItem('expirationDate'));
     if (expirationDate < new Date()) {
-      console.log(expirationDate, new Date());
       dispatch(logout());
     } else {
       const userId = localStorage.getItem('userId');

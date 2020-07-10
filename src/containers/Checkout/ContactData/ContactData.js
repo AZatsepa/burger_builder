@@ -8,6 +8,7 @@ import axios from '../../../axios-orders';
 import withErrorHandler from '../../../hoc/withErrorHandler/withErrorHandler';
 import Input from '../../../components/UI/Input/Input';
 import * as actions from '../../../store/actions/index';
+import { updateObject, checkValidity } from '../../../shared/utility';
 
 class ContactData extends Component {
     state = {
@@ -118,56 +119,21 @@ class ContactData extends Component {
 
     inputChangedHandler = (event, inputIdentifier) => {
       const { orderForm } = this.state;
-      const updatedOrderForm = {
-        ...orderForm,
-      };
-      const updatedFormElement = {
-        ...updatedOrderForm[inputIdentifier],
-      };
-      updatedFormElement.value = event.target.value;
-      updatedFormElement.valid = this.checkValidity(
-        updatedFormElement.value,
-        updatedFormElement.validation,
+      const updatedFormElement = updateObject(
+        orderForm[inputIdentifier],
+        {
+          value: event.target.value,
+          valid: checkValidity(event.target.value, orderForm[inputIdentifier].validation),
+          touched: true,
+        },
       );
-      updatedFormElement.touched = true;
-      updatedOrderForm[inputIdentifier] = updatedFormElement;
+      const updatedOrderForm = updateObject(orderForm, { [inputIdentifier]: updatedFormElement });
 
       let formIsValid = true;
       for (const updatedInputIdentifier in updatedOrderForm) {
         formIsValid = updatedOrderForm[updatedInputIdentifier].valid && formIsValid;
       }
       this.setState({ orderForm: updatedOrderForm, formIsValid });
-    }
-
-    checkValidity = (value, rules) => {
-      let isValid = true;
-      if (!rules) {
-        return true;
-      }
-
-      if (rules.required) {
-        isValid = value.trim() !== '' && isValid;
-      }
-
-      if (rules.minLength) {
-        isValid = value.length >= rules.minLength && isValid;
-      }
-
-      if (rules.maxLength) {
-        isValid = value.length <= rules.maxLength && isValid;
-      }
-
-      if (rules.isEmail) {
-        const pattern = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
-        isValid = pattern.test(value) && isValid;
-      }
-
-      if (rules.isNumeric) {
-        const pattern = /^\d+$/;
-        isValid = pattern.test(value) && isValid;
-      }
-
-      return isValid;
     }
 
     render() {

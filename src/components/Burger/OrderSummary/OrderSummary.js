@@ -17,10 +17,6 @@ class OrderSummary extends Component {
     price: PropTypes.number.isRequired,
   }
 
-  componentDidUpdate() {
-    console.log('OrderSummary DidUpdate');
-  }
-
   render() {
     const {
       price,
