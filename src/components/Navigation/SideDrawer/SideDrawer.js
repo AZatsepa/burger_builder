@@ -8,7 +8,7 @@ import NavigationItems from '../NavigationItems/NavigationItems';
 import Backdrop from '../../UI/Backdrop/Backdrop';
 import Aux from '../../../hoc/Aux';
 
-const SideDrawer = ({ open, closed }) => {
+const SideDrawer = ({ open, closed, isAuth }) => {
   let attachedClasses = [classes.SideDrawer, classes.Close];
 
   if (open) {
@@ -23,7 +23,7 @@ const SideDrawer = ({ open, closed }) => {
           <Logo />
         </div>
         <nav>
-          <NavigationItems />
+          <NavigationItems isAuthenticated={isAuth} />
         </nav>
       </div>
     </Aux>
@@ -33,6 +33,7 @@ const SideDrawer = ({ open, closed }) => {
 SideDrawer.propTypes = {
   closed: PropTypes.func.isRequired,
   open: PropTypes.bool.isRequired,
+  isAuth: PropTypes.bool.isRequired,
 };
 
 export default SideDrawer;

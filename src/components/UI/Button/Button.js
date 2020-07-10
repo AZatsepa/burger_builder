@@ -19,7 +19,7 @@ Button.propTypes = {
   clicked: PropTypes.func,
   btnType: PropTypes.string.isRequired,
   type: PropTypes.string,
-  disabled: PropTypes.string,
+  disabled: PropTypes.bool,
 };
 
 Button.defaultProps = {

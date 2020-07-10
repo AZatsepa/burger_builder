@@ -33,7 +33,13 @@ class BurgerBuilder extends Component {
 
 
   purchaseHandler = () => {
-    this.setState({ purchasing: true });
+    const { isAuthenticated, onSetAuthRedirectPath, history } = this.props;
+    if (isAuthenticated) {
+      this.setState({ purchasing: true });
+    } else {
+      onSetAuthRedirectPath('/checkout');
+      history.push('/auth');
+    }
   };
 
   purchaseCancelHandler = () => {
@@ -51,7 +57,13 @@ class BurgerBuilder extends Component {
       purchasing,
     } = this.state;
     const {
-      ingredients, totalPrice, loading, error,
+      ingredients,
+      totalPrice,
+      loading,
+      error,
+      isAuthenticated,
+      onIngredientAdded,
+      onIngredientRemoved,
     } = this.props;
     const disabledInfo = {
       ...ingredients,
@@ -70,12 +82,13 @@ class BurgerBuilder extends Component {
         <Aux>
           <Burger ingredients={ingredients} />
           <BuildControls
-            ingredientAdded={this.props.onIngredientAdded}
-            ingredientRemoved={this.props.onIngredientRemoved}
+            ingredientAdded={onIngredientAdded}
+            ingredientRemoved={onIngredientRemoved}
             disabled={disabledInfo}
             purchasable={this.updatePurchaseState()}
             ordered={this.purchaseHandler}
             price={totalPrice}
+            isAuth={isAuthenticated}
           />
         </Aux>
       );
@@ -110,6 +123,7 @@ const mapStateToProps = (state) => ({
   totalPrice: state.burgerBuilder.totalPrice,
   loading: state.burgerBuilder.loading,
   error: state.burgerBuilder.error,
+  isAuthenticated: state.auth.token !== null,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -117,5 +131,6 @@ const mapDispatchToProps = (dispatch) => ({
   onIngredientRemoved: (ingredientName) => dispatch(actions.removeIngredient(ingredientName)),
   onInitIngredients: () => dispatch(actions.initIngredients()),
   onInitPurchase: () => dispatch(actions.purchaseInit()),
+  onSetAuthRedirectPath: (path) => dispatch(actions.setAuthRedirectPath(path)),
 });
 export default connect(mapStateToProps, mapDispatchToProps)(withErrorHandler(BurgerBuilder, axios));

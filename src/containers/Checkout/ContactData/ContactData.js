@@ -98,7 +98,9 @@ class ContactData extends Component {
     }
 
     orderHandler = (event) => {
-      const { ingredients, price, onOrderBurger } = this.props;
+      const {
+        ingredients, price, onOrderBurger, token, userId,
+      } = this.props;
       const { orderForm } = this.state;
       event.preventDefault();
       const formData = {};
@@ -109,8 +111,9 @@ class ContactData extends Component {
         ingredients,
         price,
         orderData: formData,
+        userId,
       };
-      onOrderBurger(order);
+      onOrderBurger(order, token);
     }
 
     inputChangedHandler = (event, inputIdentifier) => {
@@ -136,7 +139,7 @@ class ContactData extends Component {
       this.setState({ orderForm: updatedOrderForm, formIsValid });
     }
 
-    checkValidity(value, rules) {
+    checkValidity = (value, rules) => {
       let isValid = true;
       if (!rules) {
         return true;
@@ -210,10 +213,12 @@ const mapStateToProps = (state) => ({
   ingredients: state.burgerBuilder.ingredients,
   price: state.burgerBuilder.totalPrice,
   loading: state.order.loading,
+  token: state.auth.token,
+  userId: state.auth.userId,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  onOrderBurger: (orderData) => dispatch(actions.purchaseBurger(orderData)),
+  onOrderBurger: (orderData, token) => dispatch(actions.purchaseBurger(orderData, token)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(withErrorHandler(ContactData, axios));

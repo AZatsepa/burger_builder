@@ -19,6 +19,7 @@ const BuildControls = ({
   price,
   purchasable,
   ordered,
+  isAuth,
 }) => (
   <div className={classes.BuildControls}>
     <p>Current Price: <strong>{price.toFixed(2)}</strong></p>
@@ -37,7 +38,7 @@ const BuildControls = ({
       onClick={ordered}
       type="button"
     >
-      ORDER NOW
+      { isAuth ? 'ORDER NOW' : 'SIGN UP TO ORDER' }
     </button>
   </div>
 );
@@ -54,6 +55,7 @@ BuildControls.propTypes = {
   price: PropTypes.number.isRequired,
   purchasable: PropTypes.bool.isRequired,
   ordered: PropTypes.func.isRequired,
+  isAuth: PropTypes.bool.isRequired,
 };
 
 export default BuildControls;
