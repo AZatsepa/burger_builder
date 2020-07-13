@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 const asyncComponent = (importComponent) => class extends Component {
-    atate = {
+    state = {
       component: null,
     }
 
